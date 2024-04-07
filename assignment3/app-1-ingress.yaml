@@ -1,0 +1,17 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: app-1-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/weight: "70"
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /app-1
+        pathType: Prefix
+        backend:
+          service:
+            name: app-1-svc
+            port:
+              number: 80
