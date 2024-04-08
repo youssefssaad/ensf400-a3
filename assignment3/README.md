@@ -17,13 +17,15 @@ An Ingress is a resource designed to allocate external access to the services wi
 For this step, it is just a repeat of the file setup for nginx but this is for each app specifically. It is important we define dep and svc for each app independently because each one defines how traffic is routed and how the application is managed in an app specific way. Also, when it comes to scaling, each scale can be identified in a specific manner. As a result, we are able to benefit from the effects of traffic routing, load balancing which is done through distributing traffic across pods, and a sense of abstraction when it comes to covering the details of operation. All done in a specific manner adapted for each app.
 
 # STEP 7
-This step is also an implementation of the ingress file from before but done in an app specific way. Through this app speciffic ingress file, we are able to control the rollout thorugh directing incoming traffic. We use this through our canary deployment strategy. App-2 is our canary deployment which means testing the updates will be done through it while app-1 serves as the stable version. This strategy is very interesting as it allows us to make and test app changes without affecting the entire system deployment. This is crucial in the case that the test is flawed or crashes, as you probably do not want every user to be affected. The way it works is that 30% of the user traffic is routed to app-2 which has the new updates and meant to be a test to see how users react. The ingress routing works normally with the addition of the traffic splitting.
+This step is also an implementation of the ingress file from before but done in an app specific way. Through this app speciffic ingress file, we are able to control the rollout by directing incoming traffic. We do this through our canary deployment strategy. App-2 is our canary deployment which means testing the updates will be done through it while app-1 serves as the stable version. This strategy is very interesting as it allows us to make and test app changes without affecting the entire system deployment. This is crucial in the case that the test is flawed or crashes, as you probably do not want every user to be affected. The way it works is that 30% of the user traffic is routed to app-2 which has the new updates and meant to be a test to see how users react. The ingress routing works normally with the addition of the traffic splitting.
 ![Output here](IngressOutput.png)
 
 # Debugging
 As I configured the assignment, I ran into some issues. These commands helped me figure out the issues. Firstly `kubectl get endpoints` helped me make sure that my services had endpoints and were listening on the correct port. From this command, I realized one of the errors I had was my ports were not aligned. `kubectl logs ...` would give me the log information so that I can try to debug the code. It would sometimes say that my file is written incorrectly or something isn't matched up. `kubectl get pods` helped me check if the pods were actually running and ready as they should be. If I noticed an issue here, it would mean I should look through my dep files and ensure things are set-up smoothly. 
 
 # Commands
+minikube start
+minikube addons enable ingress
 kubectl delete pods --all
 kubectl delete deployments --all
 kubectl delete svc --all
@@ -44,3 +46,4 @@ kubectl get svc
 kubectl get ingress
 kubectl get pods
 for i in {1..20}; do curl http://$(minikube ip)/; echo; done
+
