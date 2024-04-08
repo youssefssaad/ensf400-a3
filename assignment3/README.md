@@ -12,6 +12,7 @@ The purpose of a service file allows you to access the pods without needing to k
 
 # STEP 5
 An Ingress is a resource designed to allocate external access to the services within a cluster. For our case here, we use HTTP traffic. It is a user defined routing layer to direct the cluster's services. Through ingress, we can expose multiple services under a single IP address. This helps in loadbalancing ofcourse because it allows us to route to different backend services based on the request host or path. Traffic will be distributed efficiently. Through path-based routing, we can route to different backend services based on the URL path. This is done in our case as redirecting the requests to path / to the backend service nginx-svc. Also, we use nginx as the ingress controller to configure the routing. 
+Output: 
 
 
 # STEP 6
@@ -51,4 +52,5 @@ kubectl get deployments
 kubectl get svc
 kubectl get ingress
 kubectl get pods
-curl http://$(minikube ip)/
+for i in {1..20}; do curl http://$(minikube ip)/; echo; done
+

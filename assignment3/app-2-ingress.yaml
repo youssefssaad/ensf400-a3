@@ -3,15 +3,16 @@ kind: Ingress
 metadata:
   name: app-2-ingress
   annotations:
+    nginx.ingress.kubernetes.io/weight: "true"
     nginx.ingress.kubernetes.io/weight: "30"
 spec:
   rules:
   - http:
       paths:
-      - path: /app-2
+      - path: /
         pathType: Prefix
         backend:
           service:
             name: app-2-svc
             port:
-              number: 80
+              number: 3000

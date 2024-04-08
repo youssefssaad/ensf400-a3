@@ -1,14 +1,15 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: nginx-config
+  name: nginx-configmap
 data:
   default.conf: |
     upstream backend {
-      server app-1:8080;
-      server app-2:8080;
+      server app-1-svc:3000;
+      server app-2-svc:3000;
     }
     server {
+      listen 80;
       location / {
         proxy_pass http://backend;
       }
