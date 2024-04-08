@@ -9,7 +9,6 @@ data:
       server app-2-svc:3000;
     }
     server {
-      listen 80;
       location / {
         proxy_pass http://backend;
       }
